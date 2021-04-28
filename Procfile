@@ -1,1 +1,1 @@
-  Worker: node lister-bot/target/classes/me/jedflores/listerbot/ListerBot.class
+  Worker: java lister-bot/src/main/java/me/jedflores/listerbot/ListerBot.java 
