@@ -1,1 +1,1 @@
-  Worker: node lister-bot/src/main/java/me/jedflores/listerbot/ListerBot.java
+  Worker: npm start
