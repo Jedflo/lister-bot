@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 public class ListerBot {
-    private static final String token = "ODI0MTYwMDMxODk2ODk1NDg5.YFrU1w.XODQ7ce8-npzl_zbmascCGAwXCk";
+    private static final String token = new Token().getToken();
     
     public static void main (String[] args){
         JDABuilder builder = JDABuilder.createDefault(token);

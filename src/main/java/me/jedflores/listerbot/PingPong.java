@@ -8,7 +8,9 @@ import static me.jedflores.listerbot.Functions.getVariables;
 public class PingPong extends ListenerAdapter {
     ArrayList<movie> MovieList = new ArrayList<>();
     ArrayList<movie> WatchHistory = new ArrayList<>();
-    
+
+
+
     @Override
     public void onMessageReceived(MessageReceivedEvent e){
         if(e.getMessage().getContentRaw().equals("!ping")){
