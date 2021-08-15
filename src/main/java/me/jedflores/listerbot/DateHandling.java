@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Time {
+public class DateHandling {
     
     private String datetime = "dd/MM/yyyy hh:mm aa";
     private String date = "dd/MM/yyyy";
@@ -26,7 +26,7 @@ public class Time {
     
     
     public static void main(String[] args) {
-        Time t = new Time();
+        DateHandling t = new DateHandling();
         //System.out.println(t.getCurrentDateTime());
         //System.out.println(t.stringToDate(t.getCurrentDateTime()));
         System.out.println("DATE:"+t.stringToDate("12/08/2021"));

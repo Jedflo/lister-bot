@@ -20,13 +20,39 @@ Discord Bot task list feature requirements:
  */
 
 public class Task {
-    String taskName = "";
-    Date deadline;
+    private String taskName = "";
+    private String description = "";
+    private Date deadline = null;
+    DateHandling t = new DateHandling();
 
-    public static void main(String[] args) {
 
-
+    public void setTaskName(String taskName){
+        this.taskName=taskName;
     }
+
+    public String getTaskName(){
+        return taskName;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
+    }
+
+    public String getDescription(){
+        return description;
+    }
+
+    public void setDeadline(String deadline){
+        this.deadline=t.stringToDate(deadline);
+    }
+
+    public String getDeadline(){
+        return t.dateToString(deadline);
+    }
+
+
+
+
 
 
 }
