@@ -9,12 +9,12 @@ import java.util.Scanner;
 
 public class Utilities {
 
-    public void createFile(String file_name, String file_contents){
+    public void createFile(String file_path, String file_contents){
         try {
-            FileWriter writer = new FileWriter(file_name);
+            FileWriter writer = new FileWriter(file_path);
             writer.write(file_contents);
             writer.close();
-            System.out.println(file_name+"created successfully");
+            System.out.println(file_path+"created successfully");
         }
         catch (IOException e){
             System.out.println("An error occurred");
@@ -28,7 +28,7 @@ public class Utilities {
             File fileToRead = new File(file_path);
             Scanner reader = new Scanner(fileToRead);
             while(reader.hasNextLine()){
-                contents = reader.nextLine();
+                contents += reader.nextLine()+"\n";
             }
 
         }
@@ -49,9 +49,24 @@ public class Utilities {
         }
     }
 
+    public void appendFile(String file_path, String file_append){
+        try {
+            File file = new File(file_path);
+            FileWriter writer = new FileWriter(file, true);
+            writer.write(file_append);
+            writer.close();
+            System.out.println("append successful");
+        }
+        catch (IOException e){
+            System.out.println("An error occurred");
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         Utilities util = new Utilities();
         //util.createFile("testing.txt","Testing testing");
+        //util.appendFile("testing.txt","four\nfive\nsix\n");
         String contents = util.readFile("testing.txt");
         System.out.println(contents);
     }
