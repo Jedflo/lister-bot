@@ -8,7 +8,11 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Utilities {
-
+    /***
+     * method used to create a file
+     * @param file_path path of the file to be created
+     * @param file_contents contents of the file to be created
+     */
     public void createFile(String file_path, String file_contents){
         try {
             FileWriter writer = new FileWriter(file_path);
