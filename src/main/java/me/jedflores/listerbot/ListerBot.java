@@ -11,9 +11,11 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 public class ListerBot {
-    private static final String token = " ";
+    private static String token = "";
     
     public static void main (String[] args){
+        token = Utilities.readFile("token.txt");
+
         JDABuilder builder = JDABuilder.createDefault(token);
         JDA jda;
         PingPong pingpong = new PingPong();

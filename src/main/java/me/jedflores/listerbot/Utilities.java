@@ -13,7 +13,7 @@ public class Utilities {
      * @param file_path path of the file to be created
      * @param file_contents contents of the file to be created
      */
-    public void createFile(String file_path, String file_contents){
+    public static void createFile(String file_path, String file_contents){
         try {
             FileWriter writer = new FileWriter(file_path);
             writer.write(file_contents);
@@ -26,7 +26,7 @@ public class Utilities {
         }
     }
 
-    public String readFile(String file_path){
+    public static String readFile(String file_path){
         String contents = "";
         try{
             File fileToRead = new File(file_path);
@@ -43,7 +43,7 @@ public class Utilities {
         return contents;
     }
 
-    public void deleteFile(String file_path){
+    public static void deleteFile(String file_path){
         File myFile = new File(file_path);
         if(myFile.delete()){
             System.out.println(myFile.getName()+" Successfully deleted");
@@ -53,7 +53,7 @@ public class Utilities {
         }
     }
 
-    public void appendFile(String file_path, String file_append){
+    public static void appendFile(String file_path, String file_append){
         try {
             File file = new File(file_path);
             FileWriter writer = new FileWriter(file, true);
@@ -69,10 +69,11 @@ public class Utilities {
 
     public static void main(String[] args) {
         Utilities util = new Utilities();
-        //util.createFile("testing.txt","Testing testing");
-        //util.appendFile("testing.txt","four\nfive\nsix\n");
-        String contents = util.readFile("testing.txt");
+        //util.createFile("token.txt","Testing testing");
+        //util.appendFile("token.txt","four\nfive\nsix\n");
+        String contents = util.readFile("token.txt");
         System.out.println(contents);
     }
+
 
 }
