@@ -1,4 +1,5 @@
 # lister-bot
-Discord bot for listing tasks and movie watch lists.
-
+Discord bot written in java using Java Discord API
+It can make a todo list
+It can list movies to watch
 
