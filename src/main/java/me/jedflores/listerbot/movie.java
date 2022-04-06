@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package me.jedflores.listerbot;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 

@@ -1,13 +1,11 @@
 package me.jedflores.listerbot;
 import okhttp3.internal.Util;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Utilities {
+public class Utilities implements Serializable {
     /***
      * method used to create a file
      * @param file_path path of the file to be created
@@ -65,6 +63,39 @@ public class Utilities {
             System.out.println("An error occurred");
             e.printStackTrace();
         }
+    }
+
+    /*
+    ====================================Saving and Reading Objects==============================================
+     */
+
+
+    public static void saveToFile(String filename, ArrayList<movie> movie_list){
+        try {
+            FileOutputStream FOS = new FileOutputStream(filename);
+            ObjectOutputStream OOS = new ObjectOutputStream(FOS);
+            OOS.writeObject(movie_list);
+            OOS.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList loadFile(String filename){
+        ArrayList<movie> movie_list = null;
+        try {
+            FileInputStream FIS = new FileInputStream(filename);
+            ObjectInputStream OIS = new ObjectInputStream(FIS);
+            movie_list = (ArrayList<movie>)OIS.readObject();
+            OIS.close();
+
+        }catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return movie_list;
     }
 
     public static void main(String[] args) {
