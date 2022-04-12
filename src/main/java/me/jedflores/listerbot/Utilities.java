@@ -24,6 +24,11 @@ public class Utilities implements Serializable {
         }
     }
 
+    /***
+     * reads specified file
+     * @param file_path file path of the file to be read.
+     * @return
+     */
     public static String readFile(String file_path){
         String contents = "";
         try{
@@ -41,6 +46,10 @@ public class Utilities implements Serializable {
         return contents;
     }
 
+    /***
+     * Deletes specified file
+     * @param file_path file path of the file to be deleted
+     */
     public static void deleteFile(String file_path){
         File myFile = new File(file_path);
         if(myFile.delete()){
@@ -51,6 +60,11 @@ public class Utilities implements Serializable {
         }
     }
 
+    /***
+     * appends text to a specified file
+     * @param file_path path of the file to be appended
+     * @param file_append string that will be appended to specified file
+     */
     public static void appendFile(String file_path, String file_append){
         try {
             File file = new File(file_path);
