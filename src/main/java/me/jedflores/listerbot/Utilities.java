@@ -83,7 +83,11 @@ public class Utilities implements Serializable {
     ====================================Saving and Reading Objects==============================================
      */
 
-
+    /***
+     * saves an ArrayList<movie> into file
+     * @param filename file path
+     * @param movie_list movie array list
+     */
     public static void saveToFile(String filename, ArrayList<movie> movie_list){
         try {
             FileOutputStream FOS = new FileOutputStream(filename);
@@ -96,6 +100,11 @@ public class Utilities implements Serializable {
         }
     }
 
+    /***
+     * reads a file that was saved using the saveToFile method.
+     * @param filename path of the file to be read
+     * @return Arraylist in file.
+     */
     public static ArrayList loadFile(String filename){
         ArrayList<movie> movie_list = null;
         try {
