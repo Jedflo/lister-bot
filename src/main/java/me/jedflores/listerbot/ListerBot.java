@@ -11,10 +11,11 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 public class ListerBot {
-    private static String token = "";
+    //private static String token = "";
     
     public static void main (String[] args){
-        token = Utilities.readFile("token.txt");
+        String token = Utilities.readFile("token.txt");
+        token = token.replace("\n", "").replace("\r", "");
 
         JDABuilder builder = JDABuilder.createDefault(token);
         JDA jda;
