@@ -17,6 +17,14 @@ public class StringHandling {
         
     }
 
+    public static String getCommand(String command, String input){
+        String extracted_command = "";
+        if(input.contains(command) && input.indexOf(command)==0){
+
+        }
+        return extracted_command;
+    }
+
     /**
      * trimms multiple words off of an input string.
      * @param toBeTrimmed string to be trimmed
@@ -62,7 +70,7 @@ public class StringHandling {
 
     //test
     public static void main(String[] args) {
-        String test = "!Hello World Test!";
+/*        String test = "!Hello World Test!";
         String test2 = "!todo code discord bot|improve lister|15/08/2021|";
 
         System.out.println(trim(test));
@@ -74,6 +82,9 @@ public class StringHandling {
         for (String a:
              print) {
             System.out.println(a);
-        }
+        }*/
+
+        String A = "wata";
+        System.out.println(A.length());
     }
 }
