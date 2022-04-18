@@ -16,6 +16,9 @@ public class CommandManager {
         input = user_input;
     }
 
+    /***
+     * Splits command keywords and arguments from input. input is set by the setInput() method
+     */
     public static void split(){
         for (String command:COMMANDS) {
             if(input.startsWith(command)){
@@ -26,18 +29,34 @@ public class CommandManager {
         }
     }
 
+    /***
+     * returns the input set or nothing when no input is set
+     * @return input
+     */
     public static String getInput(){
         return input;
     }
 
+    /***
+     * returns the keyword command from input if input contains a keyword command.
+     * @return keyword command
+     */
     public static String getCommand(){
         return extracted_command;
     }
 
-    public static String getArguements(){
+    /***
+     * returns the argument from input. this is usually the string found right after the keyword command.
+     * @return
+     */
+    public static String getArguments(){
         return arguements;
     }
 
+    /**
+     * returns a string array containing all commands.
+     * @return
+     */
     public static String[] getAllCommands(){
         return COMMANDS;
     }
@@ -47,7 +66,7 @@ public class CommandManager {
         setInput(input);
         split();
         System.out.println(getCommand());
-        System.out.println(getArguements());
+        System.out.println(getArguments());
         System.out.println(getInput());
     }
 

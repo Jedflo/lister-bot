@@ -8,8 +8,6 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import static me.jedflores.listerbot.CommandManager.getAllCommands;
-import static me.jedflores.listerbot.CommandManager.setInput;
-import static me.jedflores.listerbot.StringHandling.*;
 
 /*
 discord bot commands.
@@ -35,7 +33,7 @@ public class PingPong extends ListenerAdapter {
         CommandManager.setInput(user_input);
         CommandManager.split();
         String command = CommandManager.getCommand();
-        String args = CommandManager.getArguements();
+        String args = CommandManager.getArguments();
 
         switch(command){
             case "":
