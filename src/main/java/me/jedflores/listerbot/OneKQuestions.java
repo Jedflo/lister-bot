@@ -36,8 +36,11 @@ public class OneKQuestions {
 
         }catch (IOException e){
             e.printStackTrace();
+            spent_index = new ArrayList<>();
+            numbers = spent_index;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+
         }
         return numbers;
     }
@@ -80,7 +83,7 @@ public class OneKQuestions {
     }
 
 
-    public static void getAllQuestions(){
+    public static void printAllQuestions(){
         List<String> list= loadQuestions();
         for (String questions: list) {
             System.out.println(questions);

@@ -5,6 +5,12 @@ public class CommandManager {
             "create list",
             "delete list",
             "rename list",
+            "rsq",
+            "rsq undo",
+            "rsq clear",
+            "rsq count",
+            "rsq count asked",
+            "test"
     };
 
     private static String extracted_command = "";
