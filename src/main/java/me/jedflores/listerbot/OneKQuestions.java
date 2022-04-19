@@ -61,22 +61,28 @@ public class OneKQuestions {
         List<String> list= loadQuestions();
         // initialize random number generator
         Random rand = new Random();
-
+        // load global index tracker
         spent_index = loadFile(INDEX_TRACK_FILE);
 
+        if(spent_index.size() == list.size()){
+            return "All questions have been asked :)";
+        }
 
+        // generate random index
         int number = rand.nextInt(list.size());
-        spent_index.add(number);
-        //System.out.println("list size:" + (list.size()));
-        //System.out.println("rand number chosen:" + number);
+        //check if index has been used. repeat number generation until an unused number is generated
+        while(spent_index.contains(number)) {
+            number = rand.nextInt(list.size());
+        }
+        //get a random question from question list
         question = list.get(number);
-
+        //add used index to used index tracker
+        spent_index.add(number);
+        //save used index to file
         saveToFile(INDEX_TRACK_FILE,spent_index);
-        //System.out.println("str len:" + question.length());
         return question;
     }
 
-    //prob with index 264, 35, 67, 240, 222, 147, 270
 
     public static void getAllQuestions(){
         List<String> list= loadQuestions();
@@ -85,13 +91,18 @@ public class OneKQuestions {
         }
     }
 
+    public static List<Integer> getUsedIndexes(){
+        List<Integer> used_index = loadFile(INDEX_TRACK_FILE);
+        return used_index;
+    }
+
 
     public static void main(String[] args) {
 
         //System.out.println(list.size());
         //getQuestion();
         //getAllQuestions();
-        //String question = getQuestion();
+
 
 /*        List<Integer> used_indexes = loadFile("used-indexes.bin");
 
@@ -99,10 +110,15 @@ public class OneKQuestions {
             System.out.println(x);
         }*/
 
+        List<Integer> used_index = getUsedIndexes();
+        for (int x:used_index) {
+            System.out.println(x);
+        }
 
 
+        /*String question = getQuestion();
+        System.out.println(question);*/
 
-        //System.out.println(question);
 
 
     }
