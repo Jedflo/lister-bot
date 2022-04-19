@@ -1,5 +1,7 @@
 package me.jedflores.listerbot;
 
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -24,11 +26,6 @@ public class OneKQuestions {
         }
     }
 
-    /***
-     * reads a file that was saved using the saveToFile method.
-     * @param filename path of the file to be read
-     * @return Arraylist in file.
-     */
     public static List loadFile(String filename){
         List<Integer> numbers = null;
         try {
@@ -63,11 +60,10 @@ public class OneKQuestions {
         Random rand = new Random();
         // load global index tracker
         spent_index = loadFile(INDEX_TRACK_FILE);
-
+        //check if all questions have been asked
         if(spent_index.size() == list.size()){
             return "All questions have been asked :)";
         }
-
         // generate random index
         int number = rand.nextInt(list.size());
         //check if index has been used. repeat number generation until an unused number is generated
@@ -96,6 +92,17 @@ public class OneKQuestions {
         return used_index;
     }
 
+    public static void deleteIndex(int indexToDelete){
+        List<Integer> used_indexes = loadFile(INDEX_TRACK_FILE);
+        int i = used_indexes.indexOf(indexToDelete);
+        if(i==-1){
+            return;
+        }
+        used_indexes.remove(i);
+        saveToFile(INDEX_TRACK_FILE,used_indexes);
+
+    }
+
 
     public static void main(String[] args) {
 
@@ -110,13 +117,21 @@ public class OneKQuestions {
             System.out.println(x);
         }*/
 
-        List<Integer> used_index = getUsedIndexes();
+/*        List<Integer> used_index = getUsedIndexes();
         for (int x:used_index) {
-            System.out.println(x);
+            System.out.print(x+",");
         }
 
+        System.out.println();
+        deleteIndex(6);
 
-        /*String question = getQuestion();
+        used_index = getUsedIndexes();
+        for (int x:used_index) {
+            System.out.print(x+",");
+        }*/
+
+
+/*        String question = getQuestion();
         System.out.println(question);*/
 
 
