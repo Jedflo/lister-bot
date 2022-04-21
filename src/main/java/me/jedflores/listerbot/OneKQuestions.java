@@ -12,6 +12,7 @@ import java.util.Random;
 public class OneKQuestions {
     //private static List<String> list;
     private static String INDEX_TRACK_FILE = "used-indexes.bin";
+    private static String QUESTION_FILE = "Questions.txt";
     private static List<Integer> spent_index = new ArrayList<>();
 
     public static void saveToFile(String filename, List<Integer> numbers){
@@ -48,11 +49,15 @@ public class OneKQuestions {
     public static List<String> loadQuestions(){
         List<String> questions_list = null;
         try {
-            questions_list = Files.readAllLines(new File("Questions.txt").toPath(), Charset.defaultCharset() );
+            questions_list = Files.readAllLines(new File(QUESTION_FILE).toPath(), Charset.defaultCharset() );
         } catch (IOException e) {
             e.printStackTrace();
         }
         return questions_list;
+    }
+
+    public static void setQuestionFile(String q_file){
+        QUESTION_FILE = q_file;
     }
 
     public static String getQuestion(){
