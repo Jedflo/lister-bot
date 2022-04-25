@@ -15,6 +15,11 @@ public class OneKQuestions {
     private static String QUESTION_FILE = "Questions.txt";
     private static List<Integer> spent_index = new ArrayList<>();
 
+    /**
+     * method used to save a list of integers into a file
+     * @param filename file path
+     * @param numbers List
+     */
     public static void saveToFile(String filename, List<Integer> numbers){
         try {
             FileOutputStream FOS = new FileOutputStream(filename);
@@ -27,6 +32,11 @@ public class OneKQuestions {
         }
     }
 
+    /**
+     * Loads a specified file that contains a list
+     * @param filename file path
+     * @return List, contents of file
+     */
     public static List loadFile(String filename){
         List<Integer> numbers = null;
         try {
