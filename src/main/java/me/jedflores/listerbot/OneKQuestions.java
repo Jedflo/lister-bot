@@ -56,6 +56,10 @@ public class OneKQuestions {
         return numbers;
     }
 
+    /**
+     * method that returns a list of questions
+     * @return list of questions
+     */
     public static List<String> loadQuestions(){
         List<String> questions_list = null;
         try {
@@ -66,6 +70,10 @@ public class OneKQuestions {
         return questions_list;
     }
 
+    /**
+     * used to set the question file
+     * @param q_file filename
+     */
     public static void setQuestionFile(String q_file){
         QUESTION_FILE = q_file;
     }
