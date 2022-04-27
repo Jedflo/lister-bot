@@ -1,7 +1,5 @@
 package me.jedflores.listerbot;
 
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
-
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -11,9 +9,10 @@ import java.util.Random;
 
 public class OneKQuestions {
     //private static List<String> list;
-    private static String INDEX_TRACK_FILE = "used-indexes.bin";
-    private static String QUESTION_FILE = "Questions.txt";
+    private static String CATEGORY_PROGRESS_TRACKING = "used-indexes.bin";
+    private static String QUESTION_CATEGORY = "Questions.txt";
     private static List<Integer> spent_index = new ArrayList<>();
+
 
     /**
      * method used to save a list of integers into a file
@@ -63,7 +62,7 @@ public class OneKQuestions {
     public static List<String> loadQuestions(){
         List<String> questions_list = null;
         try {
-            questions_list = Files.readAllLines(new File(QUESTION_FILE).toPath(), Charset.defaultCharset() );
+            questions_list = Files.readAllLines(new File(QUESTION_CATEGORY).toPath(), Charset.defaultCharset() );
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,8 +73,20 @@ public class OneKQuestions {
      * used to set the question file
      * @param q_file filename
      */
-    public static void setQuestionFile(String q_file){
-        QUESTION_FILE = q_file;
+    public static void setQuestionCategory(String q_file){
+        QUESTION_CATEGORY = q_file;
+    }
+
+    public static String getQuestionCategory(){
+        return QUESTION_CATEGORY;
+    }
+
+    public static void setCategoryProgressTracking(String savefile){
+        CATEGORY_PROGRESS_TRACKING = savefile;
+    }
+
+    public static String getCategoryProgressTracking(){
+        return CATEGORY_PROGRESS_TRACKING;
     }
 
     public static String getQuestion(){
@@ -85,7 +96,7 @@ public class OneKQuestions {
         // initialize random number generator
         Random rand = new Random();
         // load global index tracker
-        spent_index = loadFile(INDEX_TRACK_FILE);
+        spent_index = loadFile(CATEGORY_PROGRESS_TRACKING);
         //check if all questions have been asked
         if(spent_index.size() == list.size()){
             return "All questions have been asked :)";
@@ -101,7 +112,7 @@ public class OneKQuestions {
         //add used index to used index tracker
         spent_index.add(number);
         //save used index to file
-        saveToFile(INDEX_TRACK_FILE,spent_index);
+        saveToFile(CATEGORY_PROGRESS_TRACKING,spent_index);
         return question;
     }
 
@@ -114,18 +125,18 @@ public class OneKQuestions {
     }
 
     public static List<Integer> getUsedIndexes(){
-        List<Integer> used_index = loadFile(INDEX_TRACK_FILE);
+        List<Integer> used_index = loadFile(CATEGORY_PROGRESS_TRACKING);
         return used_index;
     }
 
     public static void deleteIndex(int indexToDelete){
-        List<Integer> used_indexes = loadFile(INDEX_TRACK_FILE);
+        List<Integer> used_indexes = loadFile(CATEGORY_PROGRESS_TRACKING);
         int i = used_indexes.indexOf(indexToDelete);
         if(i==-1){
             return;
         }
         used_indexes.remove(i);
-        saveToFile(INDEX_TRACK_FILE,used_indexes);
+        saveToFile(CATEGORY_PROGRESS_TRACKING,used_indexes);
 
     }
 
