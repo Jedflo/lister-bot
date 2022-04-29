@@ -89,7 +89,10 @@ public class OneKQuestions {
         return CATEGORY_PROGRESS_TRACKING;
     }
 
-
+    /**
+     * returns a single question from the pool of questions
+     * @return question
+     */
 
     public static String getQuestion(){
         String question = "";
@@ -118,7 +121,9 @@ public class OneKQuestions {
         return question;
     }
 
-
+    /**
+     * prints out all the questions within a specified question pool
+     */
     public static void printAllQuestions(){
         List<String> list= loadQuestions();
         for (String questions: list) {
@@ -126,11 +131,19 @@ public class OneKQuestions {
         }
     }
 
+    /**
+     * returns all used indexes
+     * @return List of used indexes
+     */
     public static List<Integer> getUsedIndexes(){
         List<Integer> used_index = loadFile(CATEGORY_PROGRESS_TRACKING);
         return used_index;
     }
 
+    /**
+     * deletes a specified used index
+     * @param indexToDelete index of used index
+     */
     public static void deleteIndex(int indexToDelete){
         List<Integer> used_indexes = loadFile(CATEGORY_PROGRESS_TRACKING);
         int i = used_indexes.indexOf(indexToDelete);
