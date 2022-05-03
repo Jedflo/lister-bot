@@ -77,6 +77,10 @@ public class OneKQuestions {
         QUESTION_CATEGORY = q_file;
     }
 
+    /**
+     * returns question category
+     * @return question category
+     */
     public static String getQuestionCategory(){
         return QUESTION_CATEGORY;
     }
