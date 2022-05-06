@@ -10,7 +10,7 @@ import java.util.Random;
 public class OneKQuestions {
     //private static List<String> list;
     private static String CATEGORY_PROGRESS_TRACKING = "used-indexes.bin";
-    private static String QUESTION_CATEGORY = "Questions.txt";
+    private static String QUESTION_CATEGORY = "Question Categories\\Questions.txt";
     private static List<Integer> spent_index = new ArrayList<>();
 
 
