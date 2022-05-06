@@ -1,5 +1,12 @@
 package me.jedflores.listerbot;
 
+/**
+ * Items in COMMANDS marked with
+ *  "//u" means that the commands are not in use yet.
+ *  "//t" used for testing
+ *
+ */
+
 public class CommandManager {
     private static String COMMANDS[] = {
             "create list",
@@ -10,7 +17,15 @@ public class CommandManager {
             "rsq clear",
             "rsq count",
             "rsq count asked",
-            "test"
+            "rsq i", //u
+            "rsq info", //u
+            "rsq c", //u
+            "rsq categ", //u
+            "rsq category", //u
+            "rsq lc", //u
+            "rsq list categ", //u
+            "rsq list category", //u
+            "test" //t
     };
 
     private static String extracted_command = "";
