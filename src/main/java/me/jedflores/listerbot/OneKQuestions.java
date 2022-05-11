@@ -85,6 +85,10 @@ public class OneKQuestions {
         return QUESTION_CATEGORY;
     }
 
+    /**
+     * used to specify where the category save file is
+     * @param savefile
+     */
     public static void setCategoryProgressTracking(String savefile){
         CATEGORY_PROGRESS_TRACKING = savefile;
     }
