@@ -19,9 +19,9 @@ public class CommandManager {
             "rsq count asked",
             "rsq i", //u
             "rsq info", //u
-            "rsq c", //u
-            "rsq categ", //u
-            "rsq category", //u
+            "rsq c",
+            "rsq categ",
+            "rsq category",
             "rsq lc", //u
             "rsq list categ", //u
             "rsq list category", //u
