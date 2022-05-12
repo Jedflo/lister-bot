@@ -1,9 +1,6 @@
 package me.jedflores.listerbot;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -33,7 +30,7 @@ public class PingPong extends ListenerAdapter {
             CommandManager.setInput(user_input);
             CommandManager.split();
             String command = CommandManager.getCommand();
-            String args = CommandManager.getArguments();
+            String args = CommandManager.getArguments().toLowerCase();
             System.out.println(command);
 
             switch(command){
@@ -76,12 +73,14 @@ public class PingPong extends ListenerAdapter {
                 case "rsq category":
                 case "rsq categ":
                 case "rsq c":
+                    System.out.println(args);
                     switch (args){
-                        case "Attractions":
-                        case "A":
+                        case "attractions":
+                        case "a":
                         case"1":
                             setQuestionCategory("Question Categories\\Attractions.txt");
                             setCategoryProgressTracking("Category Trackers\\AttractionsTracker.bin");
+                            e.getChannel().sendMessage("Question category is now set to **Attractions**").queue();
                             break;
                     }
                     break;
