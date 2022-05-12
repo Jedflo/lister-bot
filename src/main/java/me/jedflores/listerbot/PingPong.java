@@ -76,6 +76,14 @@ public class PingPong extends ListenerAdapter {
                 case "rsq category":
                 case "rsq categ":
                 case "rsq c":
+                    switch (args){
+                        case "Attractions":
+                        case "A":
+                        case"1":
+                            setQuestionCategory("Question Categories\\Attractions.txt");
+                            setCategoryProgressTracking("Category Trackers\\AttractionsTracker.bin");
+                            break;
+                    }
                     break;
                 case "test":
                     e.getChannel().sendMessage("test success").queue();
