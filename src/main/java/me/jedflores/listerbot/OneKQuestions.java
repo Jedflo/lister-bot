@@ -93,6 +93,10 @@ public class OneKQuestions {
         CATEGORY_PROGRESS_TRACKING = savefile;
     }
 
+    /**
+     * returns the set path of category progress tracking file
+     * @return path of category progress file.
+     */
     public static String getCategoryProgressTracking(){
         return CATEGORY_PROGRESS_TRACKING;
     }
