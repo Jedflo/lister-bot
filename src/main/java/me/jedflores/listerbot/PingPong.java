@@ -73,6 +73,10 @@ public class PingPong extends ListenerAdapter {
                 case "rsq count asked":
                     e.getChannel().sendMessage("I have asked you "+getUsedIndexes().size() + " questions in total").queue();
                     break;
+                case "rsq category":
+                case "rsq categ":
+                case "rsq c":
+                    break;
                 case "test":
                     e.getChannel().sendMessage("test success").queue();
                     break;
