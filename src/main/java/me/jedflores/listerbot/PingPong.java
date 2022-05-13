@@ -19,7 +19,11 @@ public class PingPong extends ListenerAdapter {
     Map<Integer, Task> generalList = new HashMap<>();
     String[] COMMAND_LIST = getAllCommands();
 
-
+    private static String change1kQuestionsCategory(String category){
+        setQuestionCategory("Question Categories\\" + category + ".txt");
+        setCategoryProgressTracking("Category Trackers\\" + category + " Tracker.bin");
+        return "Question category is now set to "+category;
+    }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e){
@@ -61,28 +65,72 @@ public class PingPong extends ListenerAdapter {
                     deleteIndex(indexes_list.get(indexes_list.size()-1));
                     break;
                 case "rsq clear":
-                    String INDEX_TRACKER_FILE = "used-indexes.bin";
+                    String INDEX_TRACKER_FILE = getCategoryProgressTracking();
                     Utilities.deleteFile(INDEX_TRACKER_FILE);
                     e.getChannel().sendMessage("All questions has been restored").queue();
                     break;
                 case "rsq count":
-                    e.getChannel().sendMessage("There are a total of " + loadQuestions().size() + " questions").queue();
-                case "rsq count asked":
-                    e.getChannel().sendMessage("I have asked you "+getUsedIndexes().size() + " questions in total").queue();
+                    e.getChannel().sendMessage(
+                            "Category: "+ getCategory() + "\n" +
+                                    "There are a total of " + loadQuestions().size() + " questions\n" +
+                                    "I have asked you "+getUsedIndexes().size() + " questions in total").queue();
+
                     break;
                 case "rsq category":
                 case "rsq categ":
-                case "rsq c":
+                case "rsq cat":
+                    String question_category = "";
                     System.out.println(args);
                     switch (args){
                         case "attractions":
                         case "a":
                         case"1":
-                            setQuestionCategory("Question Categories\\Attractions.txt");
-                            setCategoryProgressTracking("Category Trackers\\AttractionsTracker.bin");
-                            e.getChannel().sendMessage("Question category is now set to **Attractions**").queue();
+                            question_category="attractions";
+                            break;
+
+                        case"favorites":
+                        case"f":
+                        case"2":
+                            question_category="favorites";
+                            break;
+
+                        case"health and food":
+                        case"hf":
+                        case"3":
+                            question_category="health and food";
+                            break;
+
+                        case"morals and convictions":
+                        case"mc":
+                        case"4":
+                            question_category="morals and convictions";
+                            break;
+
+                        case"personality and emotions":
+                        case"pe":
+                        case"5":
+                            question_category="personality and emotions";
+                            break;
+
+                        case"pets":
+                        case"p":
+                        case"6":
+                            question_category="pets";
+                            break;
+
+                        case"religion and beliefs":
+                        case"rb":
+                        case"7":
+                            question_category="religion and beliefs";
+                            break;
+
+                        case"vacations":
+                        case"v":
+                        case"8":
+                            question_category="vacations";
                             break;
                     }
+                    e.getChannel().sendMessage(change1kQuestionsCategory(question_category)).queue();
                     break;
                 case "test":
                     e.getChannel().sendMessage("test success").queue();

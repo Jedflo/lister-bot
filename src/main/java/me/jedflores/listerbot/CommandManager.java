@@ -19,7 +19,7 @@ public class CommandManager {
             "rsq count asked",
             "rsq i", //u
             "rsq info", //u
-            "rsq c",
+            "rsq cat",
             "rsq categ",
             "rsq category",
             "rsq lc", //u
