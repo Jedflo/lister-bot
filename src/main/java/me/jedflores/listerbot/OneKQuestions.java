@@ -9,8 +9,8 @@ import java.util.Random;
 
 public class OneKQuestions {
     //private static List<String> list;
-    private static String CATEGORY_PROGRESS_TRACKING = "Category Trackers\\used-indexes.bin";
-    private static String QUESTION_CATEGORY = "Question Categories\\Questions.txt";
+    private static String CATEGORY_PROGRESS_TRACKING = "Category Trackers\\personality and emotions Tracker.bin"; //default
+    private static String QUESTION_CATEGORY = "Question Categories\\personality and emotions.txt"; //default category
     private static List<Integer> spent_index = new ArrayList<>();
 
 
@@ -167,6 +167,12 @@ public class OneKQuestions {
 
     }
 
+    public static String getCategory(){
+        String output = QUESTION_CATEGORY.replace("Question Categories\\","");
+        output = output.replace(".txt","");
+        return output;
+    }
+
 
     public static void main(String[] args) {
 
@@ -175,7 +181,7 @@ public class OneKQuestions {
         //getAllQuestions();
 
 
-/*        List<Integer> used_indexes = loadFile("used-indexes.bin");
+/*        List<Integer> used_indexes = loadFile("personality and emotions Tracker.bin");
 
         for (int x:used_indexes) {
             System.out.println(x);
