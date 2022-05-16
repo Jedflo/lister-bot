@@ -50,8 +50,8 @@ public class PingPong extends ListenerAdapter {
                     masterList.remove(args);
                     break;
                 case "rename list":
-
                     break;
+//=============================1k questions=====================================
                 case "rsq":
                     e.getChannel().sendMessage(getQuestion()).queue();
                     break;

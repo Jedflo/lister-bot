@@ -167,6 +167,11 @@ public class OneKQuestions {
 
     }
 
+    /**
+     * returns the selected question category
+     *
+     * @return currently selected question category
+     */
     public static String getCategory(){
         String output = QUESTION_CATEGORY.replace("Question Categories\\","");
         output = output.replace(".txt","");
