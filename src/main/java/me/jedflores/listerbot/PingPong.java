@@ -18,8 +18,25 @@ public class PingPong extends ListenerAdapter {
     Map<String, Map>  masterList = new HashMap<>();
     Map<Integer, Task> generalList = new HashMap<>();
     String[] COMMAND_LIST = getAllCommands();
+    static ArrayList<String> rsqCategories = new ArrayList<String>(
+            Arrays.asList(
+                    "",
+                    "attractions",
+                    "favorites",
+                    "health and food",
+                    "morals and convictions",
+                    "personality and emotions",
+                    "pets",
+                    "religion and beliefs",
+                    "vacation"
+            )
+    ) ;
+
 
     private static String change1kQuestionsCategory(String category){
+        if(category.isEmpty()||!rsqCategories.contains(category)){
+            return "";
+        }
         setQuestionCategory("Question Categories\\" + category + ".txt");
         setCategoryProgressTracking("Category Trackers\\" + category + " Tracker.bin");
         return "Question category is now set to "+category;
@@ -76,61 +93,84 @@ public class PingPong extends ListenerAdapter {
                                     "I have asked you "+getUsedIndexes().size() + " questions in total").queue();
 
                     break;
+
+                case "rsqa":
+                    Random rn_category_selector = new Random();
+                    //randomly select category
+                    int category_index = rn_category_selector.nextInt(rsqCategories.size());
+                    change1kQuestionsCategory(rsqCategories.get(category_index));
+                    //get question from category then send to user
+                    e.getChannel().sendMessage("Category:" + getCategory() + "\n" + getQuestion()).queue();
+                    break;
+
                 case "rsq category":
                 case "rsq categ":
                 case "rsq cat":
-                    String question_category = "";
-                    System.out.println(args);
+                    int question_category_index= 0;// set to 5 because default is personality and emotions in OneKQuestions.java
+                    System.out.println("command:"+command);
+                    System.out.println("args: "+args);
                     switch (args){
+                        case "":
+                            question_category_index= 0;
+                            break;
+
                         case "attractions":
-                        case "a":
-                        case"1":
-                            question_category="attractions";
+                        case "att":
+                        case "1":
+                            question_category_index= 1;
                             break;
 
                         case"favorites":
                         case"f":
                         case"2":
-                            question_category="favorites";
+                            question_category_index= 2;
                             break;
 
                         case"health and food":
                         case"hf":
                         case"3":
-                            question_category="health and food";
+                            question_category_index= 3;
                             break;
 
                         case"morals and convictions":
                         case"mc":
                         case"4":
-                            question_category="morals and convictions";
+                            question_category_index= 4;
                             break;
 
                         case"personality and emotions":
                         case"pe":
                         case"5":
-                            question_category="personality and emotions";
+                            question_category_index= 5;
                             break;
 
                         case"pets":
-                        case"p":
+                        case"pet":
                         case"6":
-                            question_category="pets";
+                            question_category_index= 6;
                             break;
 
                         case"religion and beliefs":
                         case"rb":
                         case"7":
-                            question_category="religion and beliefs";
+                            question_category_index= 7;
                             break;
 
                         case"vacations":
-                        case"v":
+                        case"vac":
                         case"8":
-                            question_category="vacations";
+                            question_category_index= 8;
                             break;
+                        default:
+                            if(args.equalsIgnoreCase(command)){
+                                e.getChannel().sendMessage("current category: "+getCategory()).queue();
+                                question_category_index = 0;
+                            }
+                            else{
+                                e.getChannel().sendMessage("can't find category "+args).queue();
+                            }
                     }
-                    e.getChannel().sendMessage(change1kQuestionsCategory(question_category)).queue();
+                    e.getChannel().sendMessage(change1kQuestionsCategory(rsqCategories.get(question_category_index))).queue();
                     break;
                 case "test":
                     e.getChannel().sendMessage("test success").queue();
