@@ -56,7 +56,7 @@ public class OneKQuestions {
     }
 
     /**
-     * method that returns a list of questions
+     * method that returns the list of questions
      * @return list of questions
      */
     public static List<String> loadQuestions(){

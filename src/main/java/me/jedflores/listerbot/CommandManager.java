@@ -22,6 +22,7 @@ public class CommandManager {
             "rsq cat",
             "rsq categ",
             "rsq category",
+            "rsqa",
             "rsq lc", //u
             "rsq list categ", //u
             "rsq list category", //u
