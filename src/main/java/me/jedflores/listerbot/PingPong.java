@@ -74,10 +74,7 @@ public class PingPong extends ListenerAdapter {
                     break;
                 case "rsq undo":
                     List<Integer> indexes_list = getUsedIndexes();
-                    /*System.out.println("Index array size:" + indexes_list.size());
-                    System.out.println("deleted item at index " + (indexes_list.size()-1) + " from index tracker");*/
                     List<String> questions = loadQuestions();
-                    /*System.out.println("question: \"" + questions.get(indexes_list.get(indexes_list.size()-1)) + ("\" will be restored to the pool of questions"));*/
                     e.getChannel().sendMessage("question: **\"" +questions.get(indexes_list.get(indexes_list.size()-1)) + ("\"** will be restored to the pool of questions")).queue();
                     deleteIndex(indexes_list.get(indexes_list.size()-1));
                     break;
