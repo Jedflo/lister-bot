@@ -23,9 +23,9 @@ public class CommandManager {
             "rsq categ",
             "rsq category",
             "rsqa",
-            "rsq lc", //u
-            "rsq list categ", //u
-            "rsq list category", //u
+            "rsq lc",
+            "rsq list categ",
+            "rsq list category",
             "test" //t
     };
 

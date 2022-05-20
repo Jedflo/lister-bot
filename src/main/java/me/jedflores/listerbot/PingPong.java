@@ -100,10 +100,21 @@ public class PingPong extends ListenerAdapter {
                     e.getChannel().sendMessage("Category:" + getCategory() + "\n" + getQuestion()).queue();
                     break;
 
+                case "rsq lc":
+                case "rsq list categ":
+                case "rsq list categories":
+                case "rsq list category":
+                    String reply = "";
+                    for (String category:rsqCategories) {
+                    reply = reply + category + "\n";
+                    }
+                    e.getChannel().sendMessage(reply).queue();
+                    break;
+
                 case "rsq category":
                 case "rsq categ":
                 case "rsq cat":
-                    int question_category_index= 0;// set to 5 because default is personality and emotions in OneKQuestions.java
+                    int question_category_index= 0;
                     System.out.println("command:"+command);
                     System.out.println("args: "+args);
                     switch (args){
