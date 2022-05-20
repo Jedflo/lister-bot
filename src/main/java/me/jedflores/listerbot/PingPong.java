@@ -114,7 +114,7 @@ public class PingPong extends ListenerAdapter {
                 case "rsq category":
                 case "rsq categ":
                 case "rsq cat":
-                    int question_category_index= 0;// set to 5 because default is personality and emotions in OneKQuestions.java
+                    int question_category_index= 0;
                     System.out.println("command:"+command);
                     System.out.println("args: "+args);
                     switch (args){
