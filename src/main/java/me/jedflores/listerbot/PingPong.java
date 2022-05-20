@@ -100,6 +100,17 @@ public class PingPong extends ListenerAdapter {
                     e.getChannel().sendMessage("Category:" + getCategory() + "\n" + getQuestion()).queue();
                     break;
 
+                case "rsq lc":
+                case "rsq list categ":
+                case "rsq list categories":
+                case "rsq list category":
+                    String reply = "";
+                    for (String category:rsqCategories) {
+                    reply = reply + category + "\n";
+                    }
+                    e.getChannel().sendMessage(reply).queue();
+                    break;
+
                 case "rsq category":
                 case "rsq categ":
                 case "rsq cat":
