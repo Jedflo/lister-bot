@@ -3,14 +3,18 @@ package me.jedflores.listerbot;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import static me.jedflores.listerbot.Tools.DatabaseTools.getConnection;
 
 public class OneKQuestions {
     //private static List<String> list;
     private static String CATEGORY_PROGRESS_TRACKING = "Category Trackers\\personality and emotions Tracker.bin"; //default
-    private static String QUESTION_CATEGORY = "Question Categories\\personality and emotions.txt"; //default category
+    private static String QUESTION_CATEGORY = "personality and emotions"; //default category
     private static List<Integer> spent_index = new ArrayList<>();
 
 
@@ -60,10 +64,40 @@ public class OneKQuestions {
      * @return list of questions
      */
     public static List<String> loadQuestions(){
-        List<String> questions_list = null;
+        List<String> questions_list = new ArrayList<>();
         try {
-            questions_list = Files.readAllLines(new File(QUESTION_CATEGORY).toPath(), Charset.defaultCharset() );
-        } catch (IOException e) {
+            Connection con = getConnection();
+            String statement = "SELECT Question FROM questions WHERE Category=? AND Asked = ?" ;
+            PreparedStatement query = con.prepareStatement(statement);
+            query.setString(1,QUESTION_CATEGORY);
+            query.setInt(2,0);
+            ResultSet rs = query.executeQuery();
+            while(rs.next()){
+                questions_list.add(rs.getString(1));
+                System.out.println(rs.getString(1));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return questions_list;
+    }
+
+    public static List<String> getQuestions(int asked){
+        List<String> questions_list = new ArrayList<>();
+        try {
+            Connection con = getConnection();
+            String statement = "SELECT Question FROM questions WHERE Category=? AND Asked = ?" ;
+            PreparedStatement query = con.prepareStatement(statement);
+            query.setString(1,QUESTION_CATEGORY);
+            query.setInt(2,asked);
+            ResultSet rs = query.executeQuery();
+            while(rs.next()){
+                questions_list.add(rs.getString(1));
+                System.out.println(rs.getString(1));
+            }
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return questions_list;
@@ -208,6 +242,8 @@ public class OneKQuestions {
 
 /*        String question = getQuestion();
         System.out.println(question);*/
+        //loadQuestions();
+        getQuestions(1);
 
 
 
