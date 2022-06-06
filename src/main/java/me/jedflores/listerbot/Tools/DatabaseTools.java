@@ -1,32 +1,19 @@
-package me.jedflores.listerbot;
+package me.jedflores.listerbot.Tools;
+
+import me.jedflores.listerbot.Passwords;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 public class DatabaseTools {
-    private static String username = "root";
-    private static String password = "root";
-    private static String url = "jdbc:mysql://localhost:3306/lister";
-
-    public static void setUsername(String user_name){
-        username = user_name;
-    }
-
-    public static void setPassword(String pass){
-        password = pass;
-    }
-    
-    public static void setDatabaseURL(String database_url){
-        url = database_url;
-    }
 
     public static Connection getConnection() throws Exception{
         try{
 //            String driver = "com.mysql.jdbc.Driver";
-//            String url = "jdbc:mysql://localhost:3306/lister";
-//            String username = "root";
-//            String password = "root";
+            String url = Passwords.getSqlUrl().replace("\n", "").replace("\r", "");
+            String username = Passwords.getSqlUsername().replace("\n", "").replace("\r", "");
+            String password = Passwords.getSqlPass().replace("\n", "").replace("\r", "");
 //            Class.forName(driver);
             Connection conn = DriverManager.getConnection(url,username,password);
             System.out.println("Connected");
@@ -82,7 +69,7 @@ public class DatabaseTools {
 
     public static void main(String[] args) throws Exception {
         //Connection connection = getConnection();
-        //insertInto("questions","Question,Category", "'where did you study?', 'category 5'");
+        //insertInto("questions","Question,Category", "'where did you study?', 'category 9'");
         //PreparedStatement("INSERT INTO questions(Question,Category) VALUES('When were you born?', 'category 3')");
     }
 
