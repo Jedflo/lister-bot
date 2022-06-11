@@ -4,6 +4,8 @@ import me.jedflores.listerbot.movie;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
+import java.util.concurrent.ExecutionException;
 
 public class Utilities implements Serializable {
     /***
@@ -121,12 +123,64 @@ public class Utilities implements Serializable {
         return movie_list;
     }
 
+    public static void writeObject(String filename,Object object){
+        File output_file = new File(filename); //close
+        FileOutputStream fos; //close
+        ObjectOutputStream oos; //close
+        try{
+            if(!output_file.exists()){
+                output_file.createNewFile();
+            }
+            fos = new FileOutputStream(output_file);
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(object);
+            oos.close();
+            fos.close();
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public static ObjectInputStream readObject(String filename){
+        FileInputStream fis;
+        ObjectInputStream ois = null;
+        try {
+            fis = new FileInputStream(filename);
+            ois = new ObjectInputStream(fis);
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return ois;
+
+    }
+
     public static void main(String[] args) {
         Utilities util = new Utilities();
         //util.createFile("token.txt","Testing testing");
         //util.appendFile("token.txt","four\nfive\nsix\n");
-        String contents = util.readFile("token.txt");
-        System.out.println(contents);
+        //String contents = util.readFile("token.txt");
+        //System.out.println(contents);
+        Stack<String> stack = new Stack<>();
+        stack.push("one");
+        stack.push("two");
+        stack.push("three");
+        util.writeObject("Category Trackers\\testing.bin",stack);
+        ObjectInputStream ois = util.readObject("Category Trackers\\testing.bin");
+
+        try {
+            Stack<String> stak = (Stack<String>) ois.readObject();
+            System.out.println(stak);
+            stak.pop();
+            System.out.println(stak);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+
+
     }
 
 
