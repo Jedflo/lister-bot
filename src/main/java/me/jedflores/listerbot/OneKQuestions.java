@@ -1,5 +1,7 @@
 package me.jedflores.listerbot;
 
+import me.jedflores.listerbot.Tools.Utilities;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -9,13 +11,16 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
+
 import static me.jedflores.listerbot.Tools.DatabaseTools.getConnection;
 
 public class OneKQuestions {
     //private static List<String> list;
     private static String CATEGORY_PROGRESS_TRACKING = "Category Trackers\\personality and emotions Tracker.bin"; //default
-    private static String QUESTION_CATEGORY = "personality and emotions"; //default category
+    private static String QUESTION_CATEGORY = "test categ"; //default category
     private static List<Integer> spent_index = new ArrayList<>();
+    private static String TRACKER_FILE_PATH = "Category Trackers\\"+QUESTION_CATEGORY+" Tracker.data";
 
 
     /**
@@ -96,6 +101,9 @@ public class OneKQuestions {
                 questions_list.add(rs.getString(1));
                 System.out.println(rs.getString(1));
             }
+            rs.close();
+            con.close();
+            query.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -136,35 +144,58 @@ public class OneKQuestions {
     }
 
     /**
-     * returns a single question from the pool of questions
+     * returns a single question from the category of questions specified
      * @return question
      */
-
     public static String getQuestion(){
-        String question = "";
-        // load questions from file
-        List<String> list= loadQuestions();
-        // initialize random number generator
-        Random rand = new Random();
-        // load global index tracker
-        spent_index = loadFile(CATEGORY_PROGRESS_TRACKING);
-        //check if all questions have been asked
-        if(spent_index.size() == list.size()){
-            return "All questions have been asked :)";
+        String output= "All questions in "+QUESTION_CATEGORY+" have been asked! :)";
+        try {
+            Connection con = getConnection();
+            String statement = "SELECT Question_ID, Question FROM questions WHERE Category=? AND Asked=? ORDER BY RAND() LIMIT 1" ;
+            PreparedStatement query = con.prepareStatement(statement);
+            query.setString(1,QUESTION_CATEGORY);
+            query.setInt(2,0);
+            ResultSet rs = query.executeQuery();
+
+            if(rs.next()){
+                try{
+                    int q_id = rs.getInt(1);
+                    output = rs.getString(2);
+                    PreparedStatement mark_used = con.prepareStatement("UPDATE questions SET asked = 1 where Question_ID = ?");
+                    mark_used.setInt(1, q_id);
+                    mark_used.executeUpdate();
+                    mark_used.close();
+                    rs.close();
+                    //access stack or create one if it does not exist
+                    File tracker_file = new File(TRACKER_FILE_PATH);
+                    Stack<Integer> used_questions= new Stack<>();
+                    if(!tracker_file.exists()){
+                        used_questions.push(q_id);
+                    }
+                    else {
+                        ObjectInputStream ois = Utilities.readObject(TRACKER_FILE_PATH);
+                        used_questions = (Stack<Integer>) ois.readObject();
+                        used_questions.push(q_id);
+                        ois.close();
+                    }
+                    Utilities.writeObject(TRACKER_FILE_PATH, used_questions);
+
+                    //push q_id in stack
+                    // for undoing of questions, we need to create a stack of question IDs
+                }catch (Exception e){
+                    System.out.println(e);
+
+                }finally {
+                    query.close();
+                    con.close();
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        // generate random index
-        int number = rand.nextInt(list.size());
-        //check if index has been used. repeat number generation until an unused number is generated
-        while(spent_index.contains(number)) {
-            number = rand.nextInt(list.size());
-        }
-        //get a random question from question list
-        question = list.get(number);
-        //add used index to used index tracker
-        spent_index.add(number);
-        //save used index to file
-        saveToFile(CATEGORY_PROGRESS_TRACKING,spent_index);
-        return question;
+        return output;
     }
 
     /**
@@ -243,9 +274,16 @@ public class OneKQuestions {
 /*        String question = getQuestion();
         System.out.println(question);*/
         //loadQuestions();
-        getQuestions(1);
-
-
-
+        //getQuestions(0);
+        System.out.println(getQuestion());
+        ObjectInputStream oos = Utilities.readObject(TRACKER_FILE_PATH);
+        try {
+            Stack<Integer> used_questions = (Stack<Integer>) oos.readObject();
+            System.out.println(used_questions);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
