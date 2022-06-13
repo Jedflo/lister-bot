@@ -86,7 +86,7 @@ public class PingPong extends ListenerAdapter {
                     break;
                 case "rsq count":
                     e.getChannel().sendMessage(
-                            "Category: "+ getCategory() + "\n" +
+                            "Category: "+ getCategories() + "\n" +
                                     "There are a total of " + loadQuestions().size() + " questions\n" +
                                     "I have asked you "+getUsedIndexes().size() + " questions in total").queue();
 
@@ -98,16 +98,17 @@ public class PingPong extends ListenerAdapter {
                     int category_index = rn_category_selector.nextInt(rsqCategories.size());
                     change1kQuestionsCategory(rsqCategories.get(category_index));
                     //get question from category then send to user
-                    e.getChannel().sendMessage("Category:" + getCategory() + "\n" + getQuestion()).queue();
+                    e.getChannel().sendMessage("Category:" + getCategories() + "\n" + getQuestion()).queue();
                     break;
 
                 case "rsq lc":
                 case "rsq list categ":
                 case "rsq list categories":
                 case "rsq list category":
-                    String reply = "";
-                    for (String category:rsqCategories) {
-                    reply = reply + category + "\n";
+                    String reply = "**Categories:**\n";
+                    List<String> categories = getCategories();
+                    for (String category:categories) {
+                        reply+=category+"\n";
                     }
                     e.getChannel().sendMessage(reply).queue();
                     break;
@@ -115,71 +116,15 @@ public class PingPong extends ListenerAdapter {
                 case "rsq category":
                 case "rsq categ":
                 case "rsq cat":
-                    int question_category_index= 0;
                     System.out.println("command:"+command);
-                    System.out.println("args: "+args);
-                    switch (args){
-                        case "":
-                            question_category_index= 0;
-                            break;
-
-                        case "attractions":
-                        case "att":
-                        case "1":
-                            question_category_index= 1;
-                            break;
-
-                        case"favorites":
-                        case"f":
-                        case"2":
-                            question_category_index= 2;
-                            break;
-
-                        case"health and food":
-                        case"hf":
-                        case"3":
-                            question_category_index= 3;
-                            break;
-
-                        case"morals and convictions":
-                        case"mc":
-                        case"4":
-                            question_category_index= 4;
-                            break;
-
-                        case"personality and emotions":
-                        case"pe":
-                        case"5":
-                            question_category_index= 5;
-                            break;
-
-                        case"pets":
-                        case"pet":
-                        case"6":
-                            question_category_index= 6;
-                            break;
-
-                        case"religion and beliefs":
-                        case"rb":
-                        case"7":
-                            question_category_index= 7;
-                            break;
-
-                        case"vacations":
-                        case"vac":
-                        case"8":
-                            question_category_index= 8;
-                            break;
-                        default:
-                            if(args.equalsIgnoreCase(command)){
-                                e.getChannel().sendMessage("current category: "+getCategory()).queue();
-                                question_category_index = 0;
-                            }
-                            else{
-                                e.getChannel().sendMessage("can't find category "+args).queue();
-                            }
+                    System.out.println("args:"+args);
+                    List<String> category_check= getCategories();
+                    if(category_check.contains(args)){
+                        setQuestionCategory(args);
+                        e.getChannel().sendMessage("Category set to "+args).queue();
+                    }else {
+                        e.getChannel().sendMessage("could not find a category called "+args+" ").queue();
                     }
-                    e.getChannel().sendMessage(change1kQuestionsCategory(rsqCategories.get(question_category_index))).queue();
                     break;
                 case "test":
                     e.getChannel().sendMessage("test success").queue();
