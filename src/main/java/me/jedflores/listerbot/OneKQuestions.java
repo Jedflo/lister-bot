@@ -166,6 +166,7 @@ public class OneKQuestions {
                     mark_used.executeUpdate();
                     mark_used.close();
                     rs.close();
+
                     //access stack or create one if it does not exist
                     File tracker_file = new File(TRACKER_FILE_PATH);
                     Stack<Integer> used_questions= new Stack<>();
@@ -179,9 +180,6 @@ public class OneKQuestions {
                         ois.close();
                     }
                     Utilities.writeObject(TRACKER_FILE_PATH, used_questions);
-
-                    //push q_id in stack
-                    // for undoing of questions, we need to create a stack of question IDs
                 }catch (Exception e){
                     System.out.println(e);
 
@@ -237,9 +235,20 @@ public class OneKQuestions {
      *
      * @return currently selected question category
      */
-    public static String getCategory(){
-        String output = QUESTION_CATEGORY.replace("Question Categories\\","");
-        output = output.replace(".txt","");
+    public static List<String> getCategories(){
+        List<String> output = new ArrayList<>();
+        try {
+            Connection con = getConnection();
+            String statement = "SELECT DISTINCT Category FROM questions";
+            PreparedStatement query = con.prepareStatement(statement);
+            ResultSet rs = query.executeQuery();
+            while (rs.next()){
+                output.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return output;
     }
 
@@ -275,15 +284,17 @@ public class OneKQuestions {
         System.out.println(question);*/
         //loadQuestions();
         //getQuestions(0);
-        System.out.println(getQuestion());
-        ObjectInputStream oos = Utilities.readObject(TRACKER_FILE_PATH);
-        try {
-            Stack<Integer> used_questions = (Stack<Integer>) oos.readObject();
-            System.out.println(used_questions);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+//        System.out.println(getQuestion());
+//        ObjectInputStream oos = Utilities.readObject(TRACKER_FILE_PATH);
+//        try {
+//            Stack<Integer> used_questions = (Stack<Integer>) oos.readObject();
+//            System.out.println(used_questions);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+
+        System.out.println(getCategories());
     }
 }
