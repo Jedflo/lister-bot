@@ -17,7 +17,7 @@ public class ListerBot {
 
         JDABuilder builder = JDABuilder.createDefault(token);
         JDA jda;
-        PingPong pingpong = new PingPong();
+        OneKQuestionsEvents pingpong = new OneKQuestionsEvents();
         builder.addEventListeners(pingpong);
         try {
             jda = builder.build();
