@@ -168,6 +168,7 @@ public class Utilities implements Serializable {
         ObjectInputStream ois = util.readObject("Category Trackers\\testing.bin");
 
         try {
+
             Stack<String> stak = (Stack<String>) ois.readObject();
             System.out.println(stak);
             stak.pop();

@@ -88,6 +88,11 @@ public class OneKQuestions {
         return questions_list;
     }
 
+    /**
+     * returns list of questions from questions database
+     * @param asked 0 for unasked questions and 1 for asked questions
+     * @return List of questions
+     */
     public static List<String> getQuestions(int asked){
         List<String> questions_list = new ArrayList<>();
         try {
@@ -99,7 +104,7 @@ public class OneKQuestions {
             ResultSet rs = query.executeQuery();
             while(rs.next()){
                 questions_list.add(rs.getString(1));
-                System.out.println(rs.getString(1));
+                //System.out.println(rs.getString(1));
             }
             rs.close();
             con.close();
@@ -127,21 +132,7 @@ public class OneKQuestions {
         return QUESTION_CATEGORY;
     }
 
-    /**
-     * used to specify where the category save file is
-     * @param savefile
-     */
-    public static void setCategoryProgressTracking(String savefile){
-        CATEGORY_PROGRESS_TRACKING = savefile;
-    }
-
-    /**
-     * returns the set path of category progress tracking file
-     * @return path of category progress file.
-     */
-    public static String getCategoryProgressTracking(){
-        return CATEGORY_PROGRESS_TRACKING;
-    }
+    public static String getTrackerFilePath(){return TRACKER_FILE_PATH;}
 
     /**
      * returns a single question from the category of questions specified
@@ -166,6 +157,7 @@ public class OneKQuestions {
                     mark_used.executeUpdate();
                     mark_used.close();
                     rs.close();
+
                     //access stack or create one if it does not exist
                     File tracker_file = new File(TRACKER_FILE_PATH);
                     Stack<Integer> used_questions= new Stack<>();
@@ -179,9 +171,6 @@ public class OneKQuestions {
                         ois.close();
                     }
                     Utilities.writeObject(TRACKER_FILE_PATH, used_questions);
-
-                    //push q_id in stack
-                    // for undoing of questions, we need to create a stack of question IDs
                 }catch (Exception e){
                     System.out.println(e);
 
@@ -199,50 +188,98 @@ public class OneKQuestions {
     }
 
     /**
-     * prints out all the questions within a specified question pool
-     */
-    public static void printAllQuestions(){
-        List<String> list= loadQuestions();
-        for (String questions: list) {
-            System.out.println(questions);
-        }
-    }
-
-    /**
-     * returns all used indexes
-     * @return List of used indexes
-     */
-    public static List<Integer> getUsedIndexes(){
-        List<Integer> used_index = loadFile(CATEGORY_PROGRESS_TRACKING);
-        return used_index;
-    }
-
-    /**
-     * deletes a specified used index
-     * @param indexToDelete index of used index
-     */
-    public static void deleteIndex(int indexToDelete){
-        List<Integer> used_indexes = loadFile(CATEGORY_PROGRESS_TRACKING);
-        int i = used_indexes.indexOf(indexToDelete);
-        if(i==-1){
-            return;
-        }
-        used_indexes.remove(i);
-        saveToFile(CATEGORY_PROGRESS_TRACKING,used_indexes);
-
-    }
-
-    /**
      * returns the selected question category
      *
      * @return currently selected question category
      */
-    public static String getCategory(){
-        String output = QUESTION_CATEGORY.replace("Question Categories\\","");
-        output = output.replace(".txt","");
+    public static List<String> getCategories(){
+        List<String> output = new ArrayList<>();
+        try {
+            Connection con = getConnection();
+            String statement = "SELECT DISTINCT Category FROM questions";
+            PreparedStatement query = con.prepareStatement(statement);
+            ResultSet rs = query.executeQuery();
+            while (rs.next()){
+                output.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return output;
     }
 
+
+    public static String undoLatestQuestion(){
+        String undo_out = "";
+        try {
+            //access category stack
+            ObjectInputStream ois = Utilities.readObject(getTrackerFilePath());
+            Stack<Integer> tracker_stack = (Stack<Integer>) ois.readObject();
+            // if category stack does not exist, return "no more questions to undo"
+            if(tracker_stack.isEmpty()){
+                undo_out = "no more questions to undo.";
+            }
+            else{
+                // else pop from stack which will return question id,
+                int undo_qid = tracker_stack.pop();
+                // save stack to file
+                Utilities.writeObject(getTrackerFilePath(),tracker_stack);
+                // search for question using ID in database. for user information purposes
+                Connection con = getConnection();
+                PreparedStatement query_find_question = con.prepareStatement("SELECT Question FROM questions WHERE Question_ID = ?");
+                query_find_question.setInt(1, undo_qid);
+                ResultSet rs = query_find_question.executeQuery();
+                rs.next();
+                // store question to be restored. for print later
+                String restored_question = rs.getString(1);
+                rs.close();
+                query_find_question.close();
+                // update record of question to be restored: set Asked to 0 using Question ID to find the record.
+                PreparedStatement query_undo = con.prepareStatement("UPDATE questions SET Asked = 0 where Question_ID = ?");
+                query_undo.setInt(1, undo_qid);
+                query_undo.executeUpdate();
+                query_undo.close();
+                con.close();
+                // return question "question" restored to pool of questions
+                undo_out = "question: *\""+restored_question+"\"* restored to pool of questions";
+            }
+            ois.close();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return undo_out;
+    }
+
+
+    public static String listCategories(){
+        String category_list = "**Categories**\n";
+        int asked;
+        int unasked;
+        int total_questions;
+        //get categories
+        List<String> categories = getCategories();
+        //for each category get asked and unasked questions
+        for (String category:categories) {
+            System.out.println(category);
+            setQuestionCategory(category);
+            asked = getQuestions(1).size();
+            System.out.println("no. of asked questions: "+asked);
+            unasked = getQuestions(0).size();
+            total_questions = asked+unasked;
+            System.out.println("total no. of questions: "+total_questions+"\n");
+            //if category asked == asked+unasked then cross out category then += it to category_list. format of string to += is "[category] [asked]/[asked+unasked]"
+            if(asked == total_questions){
+                category_list += "~~"+getQuestionCategory()+" "+asked+"/"+total_questions+"~~\n";
+            }
+            //else += "[category] [asked]/[asked+unasked]" to category_list
+            else {
+                category_list+= getQuestionCategory()+" "+asked+"/"+total_questions+"\n";
+            }
+
+        }
+        return category_list;
+    }
 
     public static void main(String[] args) {
 
@@ -275,15 +312,17 @@ public class OneKQuestions {
         System.out.println(question);*/
         //loadQuestions();
         //getQuestions(0);
-        System.out.println(getQuestion());
-        ObjectInputStream oos = Utilities.readObject(TRACKER_FILE_PATH);
-        try {
-            Stack<Integer> used_questions = (Stack<Integer>) oos.readObject();
-            System.out.println(used_questions);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+//        System.out.println(getQuestion());
+//        ObjectInputStream oos = Utilities.readObject(TRACKER_FILE_PATH);
+//        try {
+//            Stack<Integer> used_questions = (Stack<Integer>) oos.readObject();
+//            System.out.println(used_questions);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+
+        System.out.println(getCategories());
     }
 }
