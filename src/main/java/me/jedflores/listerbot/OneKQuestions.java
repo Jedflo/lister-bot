@@ -209,7 +209,10 @@ public class OneKQuestions {
         return output;
     }
 
-
+    /**
+     * marks the latest asked question as unasked.
+     * @return the question marked as unasked.
+     */
     public static String undoLatestQuestion(){
         String undo_out = "";
         try {
