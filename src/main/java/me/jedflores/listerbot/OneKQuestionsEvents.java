@@ -68,6 +68,7 @@ public class OneKQuestionsEvents extends ListenerAdapter {
                     break;
 
                 case "rsqa":
+                    e.getChannel().sendMessage(getAnyQuestion()).queue();
 
                     break;
 
