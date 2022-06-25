@@ -3,14 +3,11 @@ package me.jedflores.listerbot;
 import me.jedflores.listerbot.Tools.Utilities;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Stack;
 
 import static me.jedflores.listerbot.Tools.DatabaseTools.getConnection;
@@ -184,6 +181,62 @@ public class OneKQuestions {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return output;
+    }
+
+    public static String getAnyQuestion(){
+        String output = "";
+
+        try {
+            //get row of any question from database
+            Connection con = getConnection();
+            PreparedStatement random_question = con.prepareStatement("SELECT * FROM questions WHERE Asked=? ORDER BY RAND() LIMIT 1");
+            random_question.setInt(1,0);
+            ResultSet rs = random_question.executeQuery();
+
+            while(rs.next()){
+                //get category from query to set the category in lister. this is so we can easily access the tracker file
+                String random_question_category = rs.getString("Category");
+                System.out.println("Question Category: " +random_question_category);
+                output += "This question is from the category **"+random_question_category+"**:\n\n";
+                setQuestionCategory(random_question_category);
+
+                //mark the selected random question as used by pushing it in the track file of its category and updating the Asked field in the database.
+                //database update
+                int random_question_ID = rs.getInt("Question_ID");
+                PreparedStatement mark_rand_question_used = con.prepareStatement("UPDATE questions SET Asked = 1 WHERE Question_ID=?");
+                mark_rand_question_used.setInt(1,random_question_ID);
+                mark_rand_question_used.executeUpdate();
+                mark_rand_question_used.close();
+
+                //tracker file update
+                File tracker_file = new File(TRACKER_FILE_PATH);
+                Stack<Integer> used_questions= new Stack<>();
+                if(!tracker_file.exists()){
+                    used_questions.push(random_question_ID);
+                }
+                else {
+                    ObjectInputStream ois = Utilities.readObject(TRACKER_FILE_PATH);
+                    used_questions = (Stack<Integer>) ois.readObject();
+                    used_questions.push(random_question_ID);
+                    ois.close();
+                }
+                Utilities.writeObject(TRACKER_FILE_PATH, used_questions);
+
+
+                output += rs.getString("Question");
+            }
+            random_question.close();
+            rs.close();
+            con.close();
+            //update fetched question as asked and push it to tracker file
+            //return selected random question from database
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         return output;
     }
 
