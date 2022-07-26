@@ -2,10 +2,15 @@ package me.jedflores.listerbot.Tools;
 import me.jedflores.listerbot.movie;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Utilities implements Serializable {
     /***
@@ -154,6 +159,16 @@ public class Utilities implements Serializable {
 
     }
 
+    public static List<String> fileToList(String file_path){
+        List<String> result;
+        try (Stream<String> lines = Files.lines(Paths.get(file_path))) {
+            result = lines.collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         Utilities util = new Utilities();
         //util.createFile("token.txt","Testing testing");
@@ -178,10 +193,6 @@ public class Utilities implements Serializable {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
-
-
     }
 
 
