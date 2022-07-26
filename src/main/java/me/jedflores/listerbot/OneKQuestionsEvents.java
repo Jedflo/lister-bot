@@ -46,7 +46,7 @@ public class OneKQuestionsEvents extends ListenerAdapter {
                     embed_builder.setColor(Color.blue);
                     File cover = new File("lister resources\\OneKQuestions\\1kQFC_cover.png");
                     embed_builder.setImage("attachment://cover.png");
-                    e.getChannel().sendMessage(embed_builder.build()).addFile(cover,"cover.png").queue();
+                    e.getChannel().sendMessageEmbeds(embed_builder.build()).addFile(cover,"cover.png").queue();
                     e.getChannel().sendMessage("All questions I use for the relationship questions (!rsq) came from this book.").queue();
                     break;
                 case "rsq":
@@ -69,7 +69,6 @@ public class OneKQuestionsEvents extends ListenerAdapter {
 
                 case "rsqa":
                     e.getChannel().sendMessage(getAnyQuestion()).queue();
-
                     break;
 
                 case "rsq lc":
