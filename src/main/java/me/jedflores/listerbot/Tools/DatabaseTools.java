@@ -13,7 +13,7 @@ public class DatabaseTools {
 //            String driver = "com.mysql.jdbc.Driver";
             String url = Passwords.getSqlUrl().replace("\n", "").replace("\r", "");
             String username = Passwords.getSqlUsername().replace("\n", "").replace("\r", "");
-            String password = Passwords.getSqlPass().replace("\n", "").replace("\r", "");
+            String password = Passwords.getSqlPassword().replace("\n", "").replace("\r", "");
 //            Class.forName(driver);
             Connection conn = DriverManager.getConnection(url,username,password);
             System.out.println("Connected");
