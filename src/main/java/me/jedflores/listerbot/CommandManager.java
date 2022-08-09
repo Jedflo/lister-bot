@@ -26,7 +26,8 @@ public class CommandManager {
             "rsq lc",
             "rsq list categ",
             "rsq list category",
-            "test" //t
+            "test", //t
+            "file"
     };
 
     private static String extracted_command = "";

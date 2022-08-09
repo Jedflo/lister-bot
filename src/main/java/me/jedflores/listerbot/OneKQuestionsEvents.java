@@ -7,8 +7,10 @@ import java.sql.Connection;
 import java.util.*;
 import java.util.List;
 
+import me.jedflores.listerbot.Tools.MessageAttachmentTools;
 import me.jedflores.listerbot.Tools.Utilities;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -98,6 +100,14 @@ public class OneKQuestionsEvents extends ListenerAdapter {
                 case "test":
                     e.getChannel().sendMessage("test success").queue();
                     break;
+                case "file":
+                    List <String> replies = MessageAttachmentTools.readFileAttachements(e.getMessage().getAttachments());
+                    System.out.println(replies.size());
+                    for (String reply:replies) {
+                        e.getChannel().sendMessage(reply).queue();
+                    }
+                    break;
+
             } //switch end
         }// if user starts with "!" end
 
