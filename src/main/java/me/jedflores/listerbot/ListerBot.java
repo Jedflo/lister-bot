@@ -18,9 +18,9 @@ public class ListerBot {
 
         JDABuilder builder = JDABuilder.createDefault(token);
         JDA jda;
-        OneKQuestionsEvents pingpong = new OneKQuestionsEvents();
+        OneKQuestionsEvents oneKQuestions = new OneKQuestionsEvents();
         builder.enableIntents(GatewayIntent.MESSAGE_CONTENT);
-        builder.addEventListeners(pingpong);
+        builder.addEventListeners(oneKQuestions);
         try {
             jda = builder.build();
             StartupChecks.OneKQuestions();
